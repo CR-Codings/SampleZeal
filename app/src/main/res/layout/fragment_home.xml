@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_centerInParent="true"
+       android:orientation="vertical">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:padding="30dp"
+           android:orientation="horizontal">
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:padding="20dp"
+               android:orientation="vertical">
+
+               <RelativeLayout
+                   android:id="@+id/rlNewCase"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="#d3d3d3"
+                   android:padding="10dp"
+                   >
+
+               <ImageView
+                   android:id="@+id/imgNewCase"
+                   android:layout_width="100dp"
+                   android:layout_height="100dp"
+                   android:layout_centerInParent="true"
+                   android:src="@drawable/ic_new_case"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imgNewCase"
+                    android:textSize="20sp"
+                    android:textColor="#000"
+                    android:layout_centerHorizontal="true"
+                    android:text="new case"/>
+
+               </RelativeLayout>
+
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:padding="20dp"
+               android:orientation="vertical">
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="#d3d3d3"
+                   android:padding="10dp"
+                   >
+
+                   <ImageView
+                       android:id="@+id/imgExistingCase"
+                       android:layout_width="100dp"
+                       android:layout_height="100dp"
+                       android:layout_centerInParent="true"
+                       android:src="@drawable/ic_existing"/>
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_below="@+id/imgExistingCase"
+                       android:textSize="20sp"
+                       android:textColor="#000"
+                       android:layout_centerHorizontal="true"
+                       android:text="Existing"/>
+
+               </RelativeLayout>
+
+           </LinearLayout>
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:padding="30dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:orientation="horizontal">
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:padding="20dp"
+               android:orientation="vertical">
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="#d3d3d3"
+                   android:padding="10dp"
+                   >
+
+                   <ImageView
+                       android:id="@+id/imgReports"
+                       android:layout_width="100dp"
+                       android:layout_height="100dp"
+                       android:layout_centerInParent="true"
+                       android:src="@drawable/ic_reports"/>
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_below="@+id/imgReports"
+                       android:textSize="20sp"
+                       android:textColor="#000"
+                       android:layout_centerHorizontal="true"
+                       android:text="Reports"/>
+
+               </RelativeLayout>
+
+           </LinearLayout>
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:padding="20dp"
+               android:orientation="vertical">
+
+               <RelativeLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:background="#d3d3d3"
+                   android:padding="10dp"
+                   >
+
+                   <ImageView
+                       android:id="@+id/imgOthers"
+                       android:layout_width="100dp"
+                       android:layout_height="100dp"
+                       android:layout_centerInParent="true"
+                       android:src="@drawable/ic_new_case"/>
+                   <TextView
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:layout_below="@+id/imgOthers"
+                       android:textSize="20sp"
+                       android:textColor="#000"
+                       android:layout_centerHorizontal="true"
+                       android:text="Others"/>
+
+               </RelativeLayout>
+
+           </LinearLayout>
+
+       </LinearLayout>
+
+   </LinearLayout>
+
+
+</RelativeLayout>

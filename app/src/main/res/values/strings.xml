@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SampleZeal</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Profile</string>
+    <string name="title_notifications">Help</string>
+
+    <string-array name="woundtype_array">
+        <item>DPU</item>
+        <item>VPU</item>
+    </string-array>
+
+    <string-array name="designation_array">
+        <item>DPU</item>
+        <item>VPU</item>
+    </string-array>
+</resources>
