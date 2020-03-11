@@ -27,6 +27,7 @@
         android:textSize="20sp"/>
 
     <EditText
+        android:id="@+id/etName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/edittext_bg"
@@ -44,6 +45,7 @@
             android:textSize="20sp"/>
 
         <EditText
+            android:id="@+id/etAge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
@@ -61,6 +63,7 @@
             android:textSize="20sp"/>
 
         <EditText
+            android:id="@+id/etCondition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
@@ -96,6 +99,7 @@
             android:textSize="20sp"/>
 
         <EditText
+            android:id="@+id/etHistoryOne"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
@@ -104,6 +108,7 @@
             />
 
         <EditText
+            android:id="@+id/etHistoryTwo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
@@ -112,6 +117,7 @@
             />
 
         <EditText
+            android:id="@+id/etHistoryThree"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
@@ -130,6 +136,7 @@
             android:textSize="20sp"/>
 
         <EditText
+            android:id="@+id/etDoctorName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
