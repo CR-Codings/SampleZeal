@@ -1,8 +1,23 @@
 <resources>
-    <string name="app_name">SampleZeal</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Profile</string>
     <string name="title_notifications">Help</string>
+
+    <string name="app_name">AltraZeal</string>
+
+
+    <string name="email">Email Id</string>
+    <string name="passowrd">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="login_guest">Continue As Guest</string>
+    <string name="logout">LOG OUT</string>
+    <string name="show_pwd">Show Password</string>
+    <string name="hide_pwd">Hide Password</string>
+    <string name="forgot">Forgot password?</string>
+    <string name="closebutton">Close Button for Activity</string>
+    <string name="newUser">Don\'t have an account?SignUp</string>
+    <string name="emailorusername">Email or Username</string>
+    <string name="title_activity_home_navigation">HomeNavigationActivity</string>
 
     <string-array name="woundtype_array">
         <item>DPU</item>
@@ -10,7 +25,7 @@
     </string-array>
 
     <string-array name="designation_array">
-        <item>DPU</item>
-        <item>VPU</item>
+        <item>Representative</item>
+        <item>Manager</item>
     </string-array>
 </resources>
