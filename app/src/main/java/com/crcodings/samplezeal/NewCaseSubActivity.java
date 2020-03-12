@@ -1,39 +1,63 @@
 package com.crcodings.samplezeal;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewCaseSubActivity extends AppCompatActivity {
 
-
+    String realPath;
     String name = "", age= "", condition= "", woundtype= "", historyone= "",
             historytwo= "", historythree= "", doctorname= "", speciality= "", hospital = "";
+
+    EditText etComments, etDate, etDressing,etImagePath;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_case_sub);
 
         Button btnSubmit = findViewById(R.id.btnSubmit);
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+        Button btnUpload = findViewById(R.id.btnUpload);
 
+
+        etImagePath = findViewById(R.id.etImagePath);
+        etComments = findViewById(R.id.etComments);
+        etDate = findViewById(R.id.etDate);
+        etDressing = findViewById(R.id.etDressing);
 
         if(getIntent() != null) {
             if(getIntent().getStringExtra("name") != null) {
@@ -67,89 +91,227 @@ public class NewCaseSubActivity extends AppCompatActivity {
                 hospital = getIntent().getStringExtra("hospital");
             }
         }
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String comments = etComments.getText().toString();
+                String date = etDate.getText().toString();
+                String dressing = etDressing.getText().toString();
+                new LoginService(name , age, condition, woundtype, historyone,
+                        historytwo, historythree, doctorname, speciality, hospital, comments, date, dressing, realPath).execute();
+            }
+        });
+
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, 0);
+            }
+        });
     }
 
 
     @SuppressLint("StaticFieldLeak")
-    private class SaveLatLang extends AsyncTask<String,String,String> {
-        String message = "", user_id, address_id, access_token;
-        String Product_Exception = "false";
-        String resServer = "";
-        String latitude = "";
-        String longitude = "";
-        String device_name = "";
-        boolean status = false;
+    class  LoginService extends AsyncTask<String, Void, String> {
 
-        SaveLatLang(String device_name, String latitude, String longitude) {
+        private InputStream in;
+        private HttpURLConnection httpURLConnection;
+        String stream = null;
+        JSONObject jsonObject;
+        String product_exception;
+        String usernumber;
+        String message;
+        String name , age, condition, woundtype, historyone,
+                historytwo, historythree, doctorname, speciality, hospital,
+                comments, date, dressing,filepath;
 
-            this.device_name = device_name;
-            this.latitude = latitude;
-            this.longitude = longitude;
+
+
+
+        LoginService(  String name ,String  age, String  condition,String  woundtype, String historyone,
+                       String historytwo, String historythree,String  doctorname, String speciality,String  hospital,
+                       String  comments, String date,String  dressing, String filepath) {
+
+            this.name = name;
+            this.age = age;
+            this.condition = condition;
+            this.woundtype = woundtype;
+            this.historyone = historyone;
+            this.historytwo = historytwo;
+            this.historythree = historythree;
+            this.doctorname = doctorname;
+            this.speciality = speciality;
+            this.hospital = hospital;
+            this.comments = comments;
+            this.date = date;
+            this.dressing = dressing;
+            this.filepath = filepath;
 
         }
 
+
+
+        @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
         }
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected String doInBackground(String... params) {
 
-            try{
+            String url = "http://portal.moocow.in:8080/newcase";
 
-                URL url = new URL("https://portal.spassh.com/WebApi/Api/Home/StoreValues?deviceId="+device_name
-                        +"&lat="+latitude+"&longt="+longitude);
+            StringBuilder sb;
+            DataOutputStream outputStream = null;
+            InputStream inputStream = null;
+            String boundary =  "*****"+Long.toString(System.currentTimeMillis())+"*****";
+            int bytesRead, bytesAvailable, bufferSize;
+            byte[] buffer;
+            String[] q = filepath.split("/");
+            int idx = q.length - 1;
 
-                HttpURLConnection  conn = (HttpURLConnection) url.openConnection();
+            try {
 
-                conn.setRequestMethod("GET");
+                File file = new File(filepath);
+                FileInputStream fileInputStream = new FileInputStream(file);
 
-                conn.connect();
+                URL Url = new URL(url);
+                httpURLConnection = (HttpURLConnection) Url.openConnection();
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setRequestProperty("Content-Type", "multipart/form-data; boundary="+boundary);
+                httpURLConnection.setRequestProperty("name", name);
+                httpURLConnection.setRequestProperty("age", age);
+                httpURLConnection.setRequestProperty("condition", condition);
+                httpURLConnection.setRequestProperty("woundtype", woundtype);
+                httpURLConnection.setRequestProperty("history1", historyone);
+                httpURLConnection.setRequestProperty("history2", historytwo);
+                httpURLConnection.setRequestProperty("history3", historythree);
+                httpURLConnection.setRequestProperty("doctorname", doctorname);
+                httpURLConnection.setRequestProperty("speciality", speciality);
+                httpURLConnection.setRequestProperty("hospital", hospital);
+                httpURLConnection.setRequestProperty("comments", comments);
+                httpURLConnection.setRequestProperty("date", date);
+                httpURLConnection.setRequestProperty("dressingby", dressing);
+                httpURLConnection.setRequestProperty("status", "open");
 
-                int responseCode = conn.getResponseCode();
+//                OutputStreamWriter wr = new OutputStreamWriter(httpURLConnection.getOutputStream());
+//                Log.d("TAG"+"_AC","ACB" + jsonObject.toString());
+//                wr.write(jsonObject.toString());
+//                wr.close();
 
-                BufferedReader in;
-                if (responseCode == HttpURLConnection.HTTP_OK
-                        || responseCode == HttpURLConnection.HTTP_CREATED) {
+                outputStream = new DataOutputStream(httpURLConnection.getOutputStream());
+                outputStream.writeBytes("--" + boundary + "\r\n");
+                outputStream.writeBytes("Content-Disposition: form-data; name=\"" + "img_upload" + "\"; filename=\"" + q[idx] +"\"" + "\r\n");
+                outputStream.writeBytes("Content-Type: image/jpeg" + "\r\n");
+                outputStream.writeBytes("Content-Transfer-Encoding: binary" + "\r\n");
+                outputStream.writeBytes("\r\n");
+                bytesAvailable = fileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, 1048576);
+                buffer = new byte[bufferSize];
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                while(bytesRead > 0) {
+                    outputStream.write(buffer, 0, bufferSize);
+                    bytesAvailable = fileInputStream.available();
+                    bufferSize = Math.min(bytesAvailable, 1048576);
+                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+                }
+                outputStream.writeBytes("\r\n");
+                outputStream.writeBytes("--" + boundary + "--" + "\r\n");
+                inputStream = httpURLConnection.getInputStream();
+                int repCode = httpURLConnection.getResponseCode();
 
-                    in = new BufferedReader(
-                            new InputStreamReader(conn.getInputStream()));
-                    Product_Exception = "true";
+                if (repCode == HttpURLConnection.HTTP_CREATED || repCode == HttpURLConnection.HTTP_OK) {
 
-                } else {
+                    in = new BufferedInputStream(httpURLConnection.getInputStream());
+                    product_exception = "true";
+                } else if(repCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
 
-                    in = new BufferedReader(
-                            new InputStreamReader(conn.getErrorStream()));
-
-                    Product_Exception = "false";
+                    in = new BufferedInputStream(httpURLConnection.getErrorStream());
+                    product_exception = "unAuthorized";
+                }else {
+                    in = new BufferedInputStream(httpURLConnection.getErrorStream());
+                    product_exception = "false";
                 }
 
-                String inputLine;
-                StringBuilder response = new StringBuilder();
-                while ((inputLine = in.readLine()) != null) {
-                    response.append(inputLine);
+                // Read the BufferedInputStream
+                BufferedReader r = new BufferedReader(new InputStreamReader(in));
+                sb = new StringBuilder();
+
+                String line;
+                while ((line = r.readLine()) != null) {
+                    sb.append(line);
                 }
-                in.close();
 
-                resServer = response.toString();
+                stream = sb.toString();
+
+                inputStream.close();
+                httpURLConnection.disconnect();
+                fileInputStream.close();
+                outputStream.flush();
+                outputStream.close();
 
 
-            }catch (Exception e){
+
+            } catch (Exception e) {
                 e.printStackTrace();
-            }
+                product_exception = String.valueOf(false);
+            } finally {
+                // Disconnect the HttpURLConnection & Close InputStream
+                try {
+                    if (in != null) {
+                        in.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
-            return resServer;
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
+            }
+            return stream;
         }
 
         @Override
-        protected void onPostExecute(String d) {
-            super.onPostExecute(d);
+        protected void onPostExecute(String stream) {
 
-            if(Product_Exception.equals("true")){
 
-            }else{
-//                Toast.makeText(LocationService.this,"Please Try Again! Unable to Delete",Toast.LENGTH_SHORT).show();
+            if(product_exception.equals("true")){
+
+                Toast.makeText(getApplicationContext(),"Login Successfully.",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(NewCaseSubActivity.this,MainActivity.class);
+                intent.putExtra("usernumber",usernumber);
+//                intent.putExtra(Constants.Previous_Activity_Intent,Previous_Activity);
+                startActivity(intent);
+                finish();
+            }else if(product_exception.equals("unAuthorized")) {
+                Toast.makeText(NewCaseSubActivity.this,"Incorrect Username and Password.",Toast.LENGTH_LONG).show();
+            }else {
+                Toast.makeText(NewCaseSubActivity.this,"Please try again.",Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+
+
+    @Override
+    protected void onActivityResult(int reqCode, int resCode, Intent data) {
+        if(resCode == Activity.RESULT_OK && data != null){
+            // Check the SDK Version
+            if (Build.VERSION.SDK_INT < 11)
+                realPath = PathOfImage.PathAPI11(this, data.getData());
+            else if (Build.VERSION.SDK_INT < 19)
+                realPath = PathOfImage.Path_API18(this, data.getData());
+            else
+                realPath = PathOfImage.Path_API19(this, data.getData());
+            etImagePath.setText( realPath);
+
         }
     }
 }
