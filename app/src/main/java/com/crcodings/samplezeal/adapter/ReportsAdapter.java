@@ -60,6 +60,7 @@ public class ReportsAdapter extends RecyclerView.Adapter<ReportsAdapter.MyViewHo
                 intent.putExtra("History3",reportsModel.getHistory3());
                 intent.putExtra("Doctorname",reportsModel.getDoctorname());
                 intent.putExtra("Speciality",reportsModel.getSpeciality());
+                intent.putExtra("Hospital",reportsModel.getHospital());
                 intent.putExtra("Comments",reportsModel.getComments());
                 intent.putExtra("Date",reportsModel.getDate());
                 intent.putExtra("Dressingby",reportsModel.getDressingby());

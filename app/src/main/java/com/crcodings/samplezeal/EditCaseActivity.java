@@ -42,6 +42,17 @@ public class EditCaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_case);
 
+        final Spinner spinner = findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.woundtype_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setPrompt("Select Wound Type");
+
+        spinner.setAdapter(
+                new WoundTypeSpinnerAdapter(
+                        adapter,
+                        R.layout.adapter_woundtype_spinner,
+                        this));
+
 
         etName = findViewById(R.id.etName);
         etAge = findViewById(R.id.etAge);
@@ -72,6 +83,7 @@ public class EditCaseActivity extends AppCompatActivity {
             }
             if(getIntent().getStringExtra("Woundtype") != null) {
                 Woundtype = getIntent().getStringExtra("Woundtype");
+                spinner.setSelection(1);
             }
             if(getIntent().getStringExtra("History1") != null) {
                 History1 = getIntent().getStringExtra("History1");
@@ -113,16 +125,6 @@ public class EditCaseActivity extends AppCompatActivity {
                 imagefolder = getIntent().getStringExtra("imagefolder");
             }
 
-            final Spinner spinner = findViewById(R.id.spinner);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.woundtype_array, android.R.layout.simple_spinner_item);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinner.setPrompt("Select Wound Type");
-
-            spinner.setAdapter(
-                    new WoundTypeSpinnerAdapter(
-                            adapter,
-                            R.layout.adapter_woundtype_spinner,
-                            this));
 
 
             Button btnSubmit = findViewById(R.id.btnSubmit);
@@ -159,6 +161,7 @@ public class EditCaseActivity extends AppCompatActivity {
                     String hospital = etHospital.getText().toString();
 
                     Intent intent = new Intent(getApplicationContext(), EditCaseSubActivity.class);
+                    intent.putExtra("id",id);
                     intent.putExtra("name",name);
                     intent.putExtra("age",age);
                     intent.putExtra("condition",condition);
@@ -169,6 +172,10 @@ public class EditCaseActivity extends AppCompatActivity {
                     intent.putExtra("doctorname",doctorname);
                     intent.putExtra("speciality",speciality);
                     intent.putExtra("hospital",hospital);
+                    intent.putExtra("comments",Comments);
+                    intent.putExtra("date",Date);
+                    intent.putExtra("dressingby",Dressingby);
+                    intent.putExtra("status",Status);
                     startActivity(intent);
                 }
             });

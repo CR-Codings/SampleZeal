@@ -1,27 +1,22 @@
 package com.crcodings.samplezeal;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.json.JSONException;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+
 import org.json.JSONObject;
 
 import java.io.BufferedInputStream;
@@ -32,11 +27,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 
 public class NewCaseSubActivity extends AppCompatActivity {
 
@@ -45,6 +37,8 @@ public class NewCaseSubActivity extends AppCompatActivity {
             historytwo= "", historythree= "", doctorname= "", speciality= "", hospital = "";
 
     EditText etComments, etDate, etDressing,etImagePath;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,17 +96,40 @@ public class NewCaseSubActivity extends AppCompatActivity {
                         historytwo, historythree, doctorname, speciality, hospital, comments, date, dressing, realPath).execute();
             }
         });
+       if(!checkPermissionForReadExtertalStorage()) {
+           try {
+               requestPermissionForReadExtertalStorage();
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+       }
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent, 0);
+                if(checkPermissionForReadExtertalStorage()) {
+                    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, 0);
+                }
             }
         });
     }
 
+    public boolean checkPermissionForReadExtertalStorage() {
+        int result = checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
+        return result == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void requestPermissionForReadExtertalStorage() throws Exception {
+        try {
+            ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    11);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
     @SuppressLint("StaticFieldLeak")
     class  LoginService extends AsyncTask<String, Void, String> {
@@ -166,25 +183,16 @@ public class NewCaseSubActivity extends AppCompatActivity {
             String url = "http://portal.moocow.in:8080/newcase";
 
             StringBuilder sb;
-            DataOutputStream outputStream = null;
-            InputStream inputStream = null;
-            String boundary =  "*****"+Long.toString(System.currentTimeMillis())+"*****";
-            int bytesRead, bytesAvailable, bufferSize;
-            byte[] buffer;
-            String[] q = filepath.split("/");
-            int idx = q.length - 1;
 
             try {
 
-                File file = new File(filepath);
-                FileInputStream fileInputStream = new FileInputStream(file);
 
                 URL Url = new URL(url);
                 httpURLConnection = (HttpURLConnection) Url.openConnection();
                 httpURLConnection.setDoInput(true);
                 httpURLConnection.setDoOutput(true);
                 httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setRequestProperty("Content-Type", "multipart/form-data; boundary="+boundary);
+                httpURLConnection.setRequestProperty("Content-Type", "application/json");
                 httpURLConnection.setRequestProperty("name", name);
                 httpURLConnection.setRequestProperty("age", age);
                 httpURLConnection.setRequestProperty("condition", condition);
@@ -205,25 +213,7 @@ public class NewCaseSubActivity extends AppCompatActivity {
 //                wr.write(jsonObject.toString());
 //                wr.close();
 
-                outputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-                outputStream.writeBytes("--" + boundary + "\r\n");
-                outputStream.writeBytes("Content-Disposition: form-data; name=\"" + "img_upload" + "\"; filename=\"" + q[idx] +"\"" + "\r\n");
-                outputStream.writeBytes("Content-Type: image/jpeg" + "\r\n");
-                outputStream.writeBytes("Content-Transfer-Encoding: binary" + "\r\n");
-                outputStream.writeBytes("\r\n");
-                bytesAvailable = fileInputStream.available();
-                bufferSize = Math.min(bytesAvailable, 1048576);
-                buffer = new byte[bufferSize];
-                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-                while(bytesRead > 0) {
-                    outputStream.write(buffer, 0, bufferSize);
-                    bytesAvailable = fileInputStream.available();
-                    bufferSize = Math.min(bytesAvailable, 1048576);
-                    bytesRead = fileInputStream.read(buffer, 0, bufferSize);
-                }
-                outputStream.writeBytes("\r\n");
-                outputStream.writeBytes("--" + boundary + "--" + "\r\n");
-                inputStream = httpURLConnection.getInputStream();
+
                 int repCode = httpURLConnection.getResponseCode();
 
                 if (repCode == HttpURLConnection.HTTP_CREATED || repCode == HttpURLConnection.HTTP_OK) {
@@ -250,12 +240,9 @@ public class NewCaseSubActivity extends AppCompatActivity {
 
                 stream = sb.toString();
 
-                inputStream.close();
-                httpURLConnection.disconnect();
-                fileInputStream.close();
-                outputStream.flush();
-                outputStream.close();
-
+                if (httpURLConnection != null) {
+                    httpURLConnection.disconnect();
+                }
 
 
             } catch (Exception e) {
@@ -284,7 +271,7 @@ public class NewCaseSubActivity extends AppCompatActivity {
 
             if(product_exception.equals("true")){
 
-                Toast.makeText(getApplicationContext(),"Login Successfully.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"new case added.",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(NewCaseSubActivity.this,MainActivity.class);
                 intent.putExtra("usernumber",usernumber);
 //                intent.putExtra(Constants.Previous_Activity_Intent,Previous_Activity);
@@ -314,4 +301,8 @@ public class NewCaseSubActivity extends AppCompatActivity {
 
         }
     }
+
+
+
+
 }
