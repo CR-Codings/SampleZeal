@@ -11,14 +11,13 @@
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-       android:layout_centerInParent="true"
        android:orientation="vertical">
 
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_weight="1"
-           android:padding="30dp"
+           android:padding="20dp"
            android:orientation="horizontal">
 
            <LinearLayout
@@ -41,13 +40,14 @@
                    android:layout_width="100dp"
                    android:layout_height="100dp"
                    android:layout_centerInParent="true"
-                   android:src="@drawable/ic_new_case"/>
+                   android:src="@drawable/new_case"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/imgNewCase"
                     android:textSize="20sp"
                     android:textColor="#000"
+                    android:layout_marginTop="20dp"
                     android:layout_centerHorizontal="true"
                     android:text="new case"/>
 
@@ -63,6 +63,7 @@
                android:orientation="vertical">
 
                <RelativeLayout
+                   android:id="@+id/rlExistingCase"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent"
                    android:background="#d3d3d3"
@@ -74,12 +75,13 @@
                        android:layout_width="100dp"
                        android:layout_height="100dp"
                        android:layout_centerInParent="true"
-                       android:src="@drawable/ic_existing"/>
+                       android:src="@drawable/exising_case"/>
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_below="@+id/imgExistingCase"
                        android:textSize="20sp"
+                       android:layout_marginTop="20dp"
                        android:textColor="#000"
                        android:layout_centerHorizontal="true"
                        android:text="Existing"/>
@@ -92,7 +94,7 @@
 
        <LinearLayout
            android:layout_width="match_parent"
-           android:padding="30dp"
+           android:padding="20dp"
            android:layout_height="wrap_content"
            android:layout_weight="1"
            android:orientation="horizontal">
@@ -115,12 +117,13 @@
                        android:layout_width="100dp"
                        android:layout_height="100dp"
                        android:layout_centerInParent="true"
-                       android:src="@drawable/ic_reports"/>
+                       android:src="@drawable/reports"/>
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_below="@+id/imgReports"
                        android:textSize="20sp"
+                       android:layout_marginTop="20dp"
                        android:textColor="#000"
                        android:layout_centerHorizontal="true"
                        android:text="Reports"/>
@@ -148,12 +151,13 @@
                        android:layout_width="100dp"
                        android:layout_height="100dp"
                        android:layout_centerInParent="true"
-                       android:src="@drawable/ic_new_case"/>
+                       android:src="@drawable/others"/>
                    <TextView
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
                        android:layout_below="@+id/imgOthers"
                        android:textSize="20sp"
+                       android:layout_marginTop="20dp"
                        android:textColor="#000"
                        android:layout_centerHorizontal="true"
                        android:text="Others"/>

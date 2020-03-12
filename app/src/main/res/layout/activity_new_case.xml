@@ -154,6 +154,7 @@
             android:textSize="20sp"/>
 
         <EditText
+            android:id="@+id/etSpeciality"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"
@@ -171,6 +172,7 @@
             android:textSize="20sp"/>
 
         <EditText
+            android:id="@+id/etHospital"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/edittext_bg"

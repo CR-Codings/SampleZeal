@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -34,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = RegisterActivity.class.getSimpleName();
     EditText etName, etAddress, etCity, etCountry, etEmail, etPincode, etNumber;
     String designation = "";
+    ProgressBar progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,24 @@ public class RegisterActivity extends AppCompatActivity {
                         adapter,
                         R.layout.adapter_woundtype_spinner,
                         this));
-         designation = spinner.getSelectedItem().toString();
-        Button btnSubmit = findViewById(R.id.btnSubmit);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                if(position != 1){
+                    designation = "Manager";
+                } else {
+                    designation = "Representative";
+                }
+                         }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+
+         Button btnSubmit = findViewById(R.id.btnSubmit);
         etName = findViewById(R.id.etName);
         etAddress = findViewById(R.id.etAddress);
         etCity = findViewById(R.id.etCity);
@@ -59,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPincode = findViewById(R.id.etPincode);
         etNumber = findViewById(R.id.etNumber);
+
+        progress = findViewById(R.id.progress);
 
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +134,7 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            progress.setVisibility(View.VISIBLE);
+            progress.setVisibility(View.VISIBLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
@@ -189,7 +210,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String stream) {
-
+            progress.setVisibility(View.GONE);
             if(product_exception.equals("true")){
                 try {
                     JSONObject jsonObject = new JSONObject(stream);

@@ -18,6 +18,7 @@
     <string name="newUser">Don\'t have an account?SignUp</string>
     <string name="emailorusername">Email or Username</string>
     <string name="title_activity_home_navigation">HomeNavigationActivity</string>
+    <string name="reports">Existing Cases</string>
 
     <string-array name="woundtype_array">
         <item>DPU</item>

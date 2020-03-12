@@ -16,6 +16,9 @@ import java.net.URL;
 
 public class NewCaseSubActivity extends AppCompatActivity {
 
+
+    String name = "", age= "", condition= "", woundtype= "", historyone= "",
+            historytwo= "", historythree= "", doctorname= "", speciality= "", hospital = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,40 @@ public class NewCaseSubActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
+        if(getIntent() != null) {
+            if(getIntent().getStringExtra("name") != null) {
+                name = getIntent().getStringExtra("name");
+            }
+            if(getIntent().getStringExtra("age") != null) {
+                age = getIntent().getStringExtra("age");
+            }
+            if(getIntent().getStringExtra("condition") != null) {
+                condition = getIntent().getStringExtra("condition");
+            }
+            if(getIntent().getStringExtra("woundtype") != null) {
+                woundtype = getIntent().getStringExtra("woundtype");
+            }
+            if(getIntent().getStringExtra("history1") != null) {
+                historyone = getIntent().getStringExtra("history1");
+            }
+            if(getIntent().getStringExtra("history2") != null) {
+                historytwo = getIntent().getStringExtra("history2");
+            }
+            if(getIntent().getStringExtra("history3") != null) {
+                historythree = getIntent().getStringExtra("history3");
+            }
+            if(getIntent().getStringExtra("doctorname") != null) {
+                doctorname = getIntent().getStringExtra("doctorname");
+            }
+            if(getIntent().getStringExtra("speciality") != null) {
+                speciality = getIntent().getStringExtra("speciality");
+            }
+            if(getIntent().getStringExtra("hospital") != null) {
+                hospital = getIntent().getStringExtra("hospital");
+            }
+        }
     }
 
 
@@ -109,7 +146,6 @@ public class NewCaseSubActivity extends AppCompatActivity {
             super.onPostExecute(d);
 
             if(Product_Exception.equals("true")){
-//
 
             }else{
 //                Toast.makeText(LocationService.this,"Please Try Again! Unable to Delete",Toast.LENGTH_SHORT).show();

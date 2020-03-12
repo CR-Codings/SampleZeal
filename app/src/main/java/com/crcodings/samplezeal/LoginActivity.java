@@ -150,10 +150,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 e.printStackTrace();
             }
             Log.d(TAG,jsonObject.toString());
-//            new LoginService(jsonObject,getEmailId).execute();
+            new LoginService(jsonObject,getEmailId).execute();
 
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//            startActivity(intent);
 
         }
 
@@ -167,6 +167,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.loginBtn:
                 checkValidation();
+
                 break;
 
             case R.id.forgot_password:
@@ -175,8 +176,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.createAccount:
-                Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
-                startActivity(intent);
+                Intent intent1 = new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(intent1);
                 break;
         }
 

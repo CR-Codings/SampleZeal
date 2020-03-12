@@ -8,8 +8,6 @@
     android:background="#fff"
     tools:context=".NewCaseActivity">
 
-
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,23 +18,12 @@
             android:layout_margin="20dp"
             android:orientation="vertical">
 
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Register for Employee"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:textSize="20sp"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name :"
                 android:textColor="#000"
                 android:textStyle="bold"
-                android:layout_marginTop="30dp"
                 android:textSize="20sp"/>
 
             <EditText
@@ -48,11 +35,46 @@
                 android:layout_marginTop="10dp"
                 />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Age :"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/etAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_bg"
+                android:padding="20dp"
+                android:layout_marginTop="10dp"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Designation :"
+                android:text="Condition :"
+                android:textColor="#000"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"/>
+
+            <EditText
+                android:id="@+id/etCondition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edittext_bg"
+                android:padding="20dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wound Type :"
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
@@ -70,14 +92,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email :"
+                android:text="History :"
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"/>
 
             <EditText
-                android:id="@+id/etEmail"
+                android:id="@+id/etHistoryOne"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
@@ -85,37 +107,17 @@
                 android:layout_marginTop="10dp"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mobile :"
-                android:textColor="#000"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"
-                android:textSize="20sp"/>
-
             <EditText
-                android:id="@+id/etNumber"
+                android:id="@+id/etHistoryTwo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
                 android:padding="20dp"
-                android:inputType="number"
-                android:maxLength="10"
                 android:layout_marginTop="10dp"
                 />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Address :"
-                android:textColor="#000"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"
-                android:textSize="20sp"/>
-
             <EditText
-                android:id="@+id/etAddress"
+                android:id="@+id/etHistoryThree"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
@@ -127,14 +129,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="City :"
+                android:text="Doctor Name :"
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"/>
 
             <EditText
-                android:id="@+id/etCity"
+                android:id="@+id/etDoctorName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
@@ -145,14 +147,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Country :"
+                android:text="Speciality :"
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"/>
 
             <EditText
-                android:id="@+id/etCountry"
+                android:id="@+id/etSpeciality"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
@@ -163,14 +165,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pincode :"
+                android:text="Hospital :"
                 android:textColor="#000"
                 android:textStyle="bold"
                 android:layout_marginTop="20dp"
                 android:textSize="20sp"/>
 
             <EditText
-                android:id="@+id/etPincode"
+                android:id="@+id/etHospital"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/edittext_bg"
@@ -186,8 +188,7 @@
                     android:id="@+id/btnSubmit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SignUp"
-                    android:background="@drawable/button_yellow"
+                    android:text="Continue"
                     android:layout_marginTop="30dp"
                     android:layout_centerInParent="true"
                     />
@@ -203,17 +204,5 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
-
-    <ProgressBar
-        android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:clickable="false"
-        android:indeterminateDrawable="@drawable/progressbar"
-        android:padding="10dp"
-        android:visibility="gone" />
 
 </RelativeLayout>
